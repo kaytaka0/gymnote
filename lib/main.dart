@@ -1,7 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:location/location.dart';
 
 void main() {
   runApp(MyApp());
+}
+
+Future<bool> checkLocation() async {
+  Location location = new Location();
+  bool _serviceEnabled;
+  PermissionStatus _permissionGranted;
+
+  _serviceEnabled = await location.serviceEnabled();
+  if (!_serviceEnabled) {
+    _serviceEnabled = await location.requestService();
+    if (!_serviceEnabled) {
+      return false;
+    }
+  }
+  _permissionGranted = await location.hasPermission();
+  if (_permissionGranted == PermissionStatus.denied) {
+    _permissionGranted = await location.requestPermission();
+    if (_permissionGranted != PermissionStatus.granted) {
+      return false;
+    }
+  }
+  return true;
 }
 
 class MyApp extends StatelessWidget {
@@ -28,11 +51,17 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
+  String _text = "";
+  String _text2 = "";
+  void _changeText(String t) {
     setState(() {
-      _counter++;
+      _text = t;
+    });
+  }
+
+  void _changeText2(String t) {
+    setState(() {
+      _text2 = t;
     });
   }
 
@@ -45,18 +74,40 @@ class _MyHomePageState extends State<MyHomePage> {
       body: ListView(
         children: <Widget>[
           Card(
-              child: ListTile(
-            title: Text("hoo"),
-          )),
+            child: ListTile(
+              title: Text(_text),
+            ),
+          ),
           Card(
             child: ListTile(
-              title: Text("okfadok"),
+              title: Text(_text2),
             ),
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: () async {
+          bool isGetLocation = await checkLocation();
+          if (isGetLocation) {
+            Location location = new Location();
+            LocationData currentLocation = await location.getLocation();
+            print(currentLocation.latitude);
+
+            LocationData gymLocation = new LocationData.fromMap({
+              'latitude': 34.84173822491373,
+              'longitude': 135.49867778891553,
+            });
+            // 小数第三位まで一致していればOKとする
+            bool latEq =
+                (currentLocation.latitude - gymLocation.latitude) < 10e-4;
+            bool lonEq =
+                (currentLocation.longitude - gymLocation.longitude) < 10e-4;
+
+            _changeText((latEq && lonEq).toString());
+            _changeText2(
+                "lat:${currentLocation.latitude}\n lon:${currentLocation.longitude}\n GYM\n lat:${gymLocation.latitude}\n lon:${gymLocation.longitude}");
+          }
+        },
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ),
