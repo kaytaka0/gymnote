@@ -100,22 +100,41 @@ class _MyHomePageState extends State<MyHomePage> {
                     Location location = new Location();
                     LocationData currentLocation = await location.getLocation();
 
-                    LocationData gymLocation = new LocationData.fromMap({
-                      'latitude': 34.84173822491373,
-                      'longitude': 135.49867778891553,
-                    });
+                    List<LocationData> gymLocation = [
+                      new LocationData.fromMap({
+                        'latitude': 34.84173822491373,
+                        'longitude': 135.49867778891553,
+                      }),
+                      new LocationData.fromMap({
+                        'latitude': 34.758475955821034,
+                        'longitude': 135.5153780809641,
+                      }),
+                      new LocationData.fromMap({
+                        'latitude': 34.787337859052606,
+                        'longitude': 135.46172630326728,
+                      }),
+                      new LocationData.fromMap({
+                        'latitude': 34.81894410513142,
+                        'longitude': 135.4908909891249,
+                      }),
+                      new LocationData.fromMap({
+                        'latitude': 34.82571310203641,
+                        'longitude': 135.46588099888686,
+                      }),
+                    ];
+
                     // 小数第三位まで一致していればOKとする
-                    bool isEqual =
-                        (currentLocation.latitude - gymLocation.latitude)
-                                    .abs() <
-                                10e-3 &&
-                            (currentLocation.longitude - gymLocation.longitude)
-                                    .abs() <
-                                10e-3;
+                    bool isEqual = (currentLocation.latitude -
+                                    gymLocation[1].latitude)
+                                .abs() <
+                            10e-3 &&
+                        (currentLocation.longitude - gymLocation[1].longitude)
+                                .abs() <
+                            10e-3;
 
                     _changeText("${isEqual.toString()}");
                     _changeText2(
-                        "lat:${currentLocation.latitude}\n lon:${currentLocation.longitude}\n GYM\n lat:${gymLocation.latitude}\n lon:${gymLocation.longitude}");
+                        "lat:${currentLocation.latitude}\n lon:${currentLocation.longitude}\n GYM\n lat:${gymLocation[1].latitude}\n lon:${gymLocation[1].longitude}");
                   }
                 },
               ),
