@@ -83,33 +83,45 @@ class _MyHomePageState extends State<MyHomePage> {
               title: Text(_text2),
             ),
           ),
+          Container(
+            child: Center(
+              child: RaisedButton(
+                child: Text("Button"),
+                color: Colors.white,
+                shape: Border(
+                  top: BorderSide(color: Colors.red),
+                  left: BorderSide(color: Colors.blue),
+                  right: BorderSide(color: Colors.yellow),
+                  bottom: BorderSide(color: Colors.green),
+                ),
+                onPressed: () async {
+                  bool isGetLocation = await checkLocation();
+                  if (isGetLocation) {
+                    Location location = new Location();
+                    LocationData currentLocation = await location.getLocation();
+
+                    LocationData gymLocation = new LocationData.fromMap({
+                      'latitude': 34.84173822491373,
+                      'longitude': 135.49867778891553,
+                    });
+                    // 小数第三位まで一致していればOKとする
+                    bool isEqual =
+                        (currentLocation.latitude - gymLocation.latitude)
+                                    .abs() <
+                                10e-3 &&
+                            (currentLocation.longitude - gymLocation.longitude)
+                                    .abs() <
+                                10e-3;
+
+                    _changeText("${isEqual.toString()}");
+                    _changeText2(
+                        "lat:${currentLocation.latitude}\n lon:${currentLocation.longitude}\n GYM\n lat:${gymLocation.latitude}\n lon:${gymLocation.longitude}");
+                  }
+                },
+              ),
+            ),
+          ),
         ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          bool isGetLocation = await checkLocation();
-          if (isGetLocation) {
-            Location location = new Location();
-            LocationData currentLocation = await location.getLocation();
-            print(currentLocation.latitude);
-
-            LocationData gymLocation = new LocationData.fromMap({
-              'latitude': 34.84173822491373,
-              'longitude': 135.49867778891553,
-            });
-            // 小数第三位まで一致していればOKとする
-            bool latEq =
-                (currentLocation.latitude - gymLocation.latitude) < 10e-4;
-            bool lonEq =
-                (currentLocation.longitude - gymLocation.longitude) < 10e-4;
-
-            _changeText((latEq && lonEq).toString());
-            _changeText2(
-                "lat:${currentLocation.latitude}\n lon:${currentLocation.longitude}\n GYM\n lat:${gymLocation.latitude}\n lon:${gymLocation.longitude}");
-          }
-        },
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
       ),
     );
   }

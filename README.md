@@ -15,6 +15,10 @@ For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 
+## 詰まったところ
+
+- location.getLocationで位置情報の更新がされない。エミュレータでは位置情報の値を更新しているが、getLocationから返却される値は元のまま
+
 ## 参考URL
 
 - [Flutterで始めるアプリ開発](https://www.flutter-study.dev/widgets/about-widget)
