@@ -15,6 +15,21 @@ For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 
+## データの取扱
+
+アプリケーション内で記録されたデータはAndroidスマホのローカルストレージに保存する。
+保存するデータは以下のような`json`形式
+```json
+{
+    "gym_visit": [
+        {
+            "datetime": "2021-01-01T18:25:43.511Z",
+            "location_id": "8cb33614-fbe3-4590-9042-09f238874ff6",
+        }
+    ]
+}
+```
+
 ## 詰まったところ
 
 - location.getLocationで位置情報の更新がされない。エミュレータでは位置情報の値を更新しているが、getLocationから返却される値は元のまま
