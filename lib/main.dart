@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:gymnote/workout_start.dart';
 import 'package:location/location.dart';
 
 import 'gym_not_found.dart';
+import 'loading.dart';
 import 'location_utils.dart';
 
 void main() {
@@ -18,7 +20,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.deepPurple,
         backgroundColor: Colors.deepPurple,
       ),
-      home: HomePage(title: 'Gymnote'),
+      home: HomePage(title: 'トレーニング記録'),
     );
   }
 }
@@ -33,11 +35,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String _text = "ここはエニタイムフィットネスじゃないです";
-  void _changeText(String t) {
-    setState(() {
-      _text = t;
-    });
+  //ローディング表示の状態
+  bool visibleLoading = false;
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
@@ -46,48 +48,68 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Center(
-              child: ElevatedButton(
-                  child: Text("トレーニングを始める"),
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.deepPurple,
-                  ),
-                  onPressed: () async {
-                    bool isGetLocation = await checkLocation();
-                    if (isGetLocation) {
-                      LocationData currentLocation =
-                          await (new Location().getLocation());
-                      if (inGym(currentLocation)) {
-                        _changeText("ここはエニタイムフィットネスです");
-                      } else {
-                        _changeText("ここはエニタイムフィットネスじゃないです");
-                      }
-                    }
-                  }),
-            ),
-            Text(_text),
+      body: ClipRect(
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            Container(),
+            OverlayLoadingMolecules(
+                visible: visibleLoading, message: "位置情報を取得しています..."),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          // GymNotFoundPage, WorkoutStartPageのいづれかに遷移する
-          // 位置情報の取得が非同期関数を用いるため、ボタンが押された際にはローディングを表示させる
-          //
-          Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) {
-              return GymNotFoundPage();
-            }),
-          );
-        },
-        icon: Icon(Icons.add),
-        label: const Text('記録を追加する'),
-        backgroundColor: Colors.deepPurple,
-      ),
+      floatingActionButton: _buildButton(context),
+    );
+  }
+
+  Widget _buildButton(BuildContext context) {
+    return FloatingActionButton.extended(
+      onPressed: visibleLoading
+          ? null
+          : () async {
+              // GymNotFoundPage, WorkoutStartPageのいづれかに遷移する
+              // 位置情報の取得が非同期関数を用いるため、ボタンが押された際にはローディングを表示させる
+              setState(() {
+                visibleLoading = true;
+              });
+
+              // await Future.delayed(const Duration(milliseconds: 2000), () {});
+              // 位置情報判定
+              bool isGetLocation = await checkLocation();
+              if (!isGetLocation) {
+                // ローディング終了
+                setState(() {
+                  visibleLoading = false;
+                });
+                return;
+              }
+
+              LocationData currentLocation =
+                  await (new Location().getLocation());
+
+              // ローディング終了
+              setState(() {
+                visibleLoading = false;
+              });
+
+              if (inGym(currentLocation)) {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) {
+                    return WorkOutStartPage();
+                  }),
+                );
+              } else {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) {
+                    return GymNotFoundPage();
+                  }),
+                );
+              }
+            },
+      icon: Icon(Icons.add),
+      label: const Text('記録を追加する'),
+      backgroundColor:
+          visibleLoading ? Colors.grey.shade700 : Colors.deepPurple,
     );
   }
 }

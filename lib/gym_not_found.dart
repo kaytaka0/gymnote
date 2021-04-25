@@ -24,14 +24,6 @@ class _GymNotFoundState extends State<GymNotFoundPage> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
-        icon: Icon(Icons.keyboard_backspace),
-        label: const Text("戻る"),
-        backgroundColor: Colors.deepPurple,
-      ),
     );
   }
 }
