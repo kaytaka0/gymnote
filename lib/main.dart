@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gymnote/log.dart';
 import 'package:location/location.dart';
 
+import 'gym_not_found.dart';
 import 'location_utils.dart';
 
 void main() {
@@ -47,7 +47,6 @@ class _HomePageState extends State<HomePage> {
         title: Text(widget.title),
       ),
       body: Container(
-        // padding: EdgeInsets.all(110),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -76,14 +75,17 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
+          // GymNotFoundPage, WorkoutStartPageのいづれかに遷移する
+          // 位置情報の取得が非同期関数を用いるため、ボタンが押された際にはローディングを表示させる
+          //
           Navigator.of(context).push(
             MaterialPageRoute(builder: (context) {
-              return LogPage();
+              return GymNotFoundPage();
             }),
           );
         },
-        icon: Icon(Icons.notes),
-        label: const Text('ノートを見る'),
+        icon: Icon(Icons.add),
+        label: const Text('記録を追加する'),
         backgroundColor: Colors.deepPurple,
       ),
     );
