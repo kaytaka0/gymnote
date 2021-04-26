@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:gymnote/workout_start.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:location/location.dart';
 
 import 'gym_not_found.dart';
 import 'loading.dart';
 import 'location_utils.dart';
+import 'log.dart';
 
 void main() {
   runApp(MyApp());
+  initializeDateFormatting('ja');
 }
 
 class MyApp extends StatelessWidget {
@@ -52,7 +55,9 @@ class _HomePageState extends State<HomePage> {
         child: Stack(
           fit: StackFit.expand,
           children: [
-            Container(),
+            Container(
+              child: LogPage(),
+            ),
             OverlayLoadingMolecules(
                 visible: visibleLoading, message: "位置情報を取得しています..."),
           ],

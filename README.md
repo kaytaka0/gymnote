@@ -1,21 +1,20 @@
-# gymnote
+# Gymnote
 
-A new Flutter application.
+トレーニングでのフィットネスジム通いの頻度を可視化するスマートフォンアプリ
 
-## Getting Started
+githubプロフィールで表示される日々のコントリビューション(草を生やすやつ)のグラフのように可視化することでモチベーションアップをねらう。
 
-This project is a starting point for a Flutter application.
+## TODO
+- データ保存ロジック
+- トレーニング記録の表示
+- トレーニング記録のグラフ表示
 
-A few resources to get you started if this is your first Flutter project:
+## 保存データ形式
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-
-## データの取扱
+永続化させるデータの種類は、「フィットネスジムへの来訪記録」の一種類のみ。
+### 来訪記録(gym_visit)フィールド
+- location_id: フィットネスジム店舗のUUID
+- datetime: 来訪時間
 
 アプリケーション内で記録されたデータはAndroidスマホのローカルストレージに保存する。
 保存するデータは以下のような`json`形式
@@ -32,7 +31,9 @@ samples, guidance on mobile development, and a full API reference.
 
 ## 詰まったところ
 
-- location.getLocationで位置情報の更新がされない。エミュレータでは位置情報の値を更新しているが、getLocationから返却される値は元のまま
+- エミュレータでのデバッグでlocation.getLocationで位置情報の更新がされない。デバッグ機能no
+画面では位置情報の値を更新しているが、getLocationから返却される値は元のまま -> 値を変更後に「send」を押す比喩等がある
+- 
 
 ## 参考URL
 

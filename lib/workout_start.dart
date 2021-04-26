@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:localstorage/localstorage.dart';
+
+import 'gym_location.dart';
 
 class WorkOutStartPage extends StatefulWidget {
   WorkOutStartPage({Key key}) : super(key: key);
@@ -8,6 +11,8 @@ class WorkOutStartPage extends StatefulWidget {
 }
 
 class _WorkOutStartState extends State<WorkOutStartPage> {
+  final LocalStorage storage = new LocalStorage(visitListFileName);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
