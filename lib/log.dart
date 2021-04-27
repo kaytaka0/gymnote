@@ -27,15 +27,25 @@ class _LogPageState extends State<LogPage> {
         ),
       );
     }
-    return list;
+
+    // VisitItemが0件の場合に表示するCard
+    List<Widget> noItems = [
+      new Card(
+        child: ListTile(
+          title: Text("履歴はありません"),
+        ),
+      )
+    ];
+    return list.length == 0 ? noItems : list;
   }
 
   Widget heatMap(VisitList visitList) {
+    Map<DateTime, int> inputMap = Map.fromIterables(
+        visitList.items.map((e) => TimeUtils.removeTime(e.date)).toList(),
+        visitList.items.map((e) => 1));
+
     return HeatMapCalendar(
-      input: {
-        TimeUtils.removeTime(visitList.items[0].date): 1,
-        TimeUtils.removeTime(DateTime.now().subtract(Duration(days: 10))): 1,
-      },
+      input: inputMap,
       colorThresholds: {
         1: Colors.green,
       },
@@ -85,12 +95,14 @@ class _LogPageState extends State<LogPage> {
           // localStorageから取得
           VisitList visitList = new VisitList();
           List<dynamic> visits = storage.getItem('gym_visit');
-          visitList.items = visits
-              .map((e) => new VisitItem(
-                  locationId: e['locationId'],
-                  locationName: e['locationName'],
-                  date: DateTime.parse(e['date'])))
-              .toList();
+          visitList.items = visits == null
+              ? []
+              : visits
+                  .map((e) => new VisitItem(
+                      locationId: e['locationId'],
+                      locationName: e['locationName'],
+                      date: DateTime.parse(e['date'])))
+                  .toList();
 
           return logWidget(visitList);
         } else {
