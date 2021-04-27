@@ -4,7 +4,9 @@ import 'package:localstorage/localstorage.dart';
 import 'gym_location.dart';
 
 class WorkOutStartPage extends StatefulWidget {
-  WorkOutStartPage({Key key}) : super(key: key);
+  WorkOutStartPage({Key key, this.gymName}) : super(key: key);
+
+  final String gymName;
 
   @override
   _WorkOutStartState createState() => _WorkOutStartState();
@@ -25,6 +27,7 @@ class _WorkOutStartState extends State<WorkOutStartPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text("位置情報によってフィットネスジムが見つかりました。"),
+              Text("${widget.gymName}"),
               ElevatedButton.icon(
                 onPressed: () {
                   Navigator.of(context).pop();

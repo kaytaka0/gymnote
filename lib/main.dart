@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:gymnote/workout_start.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -97,10 +99,11 @@ class _HomePageState extends State<HomePage> {
                 visibleLoading = false;
               });
 
-              if (inGym(currentLocation)) {
+              HashMap<dynamic, dynamic> gym = inGym(currentLocation);
+              if (gym is HashMap) {
                 Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) {
-                    return WorkOutStartPage();
+                    return WorkOutStartPage(gymName: gym['locationName']);
                   }),
                 );
               } else {
