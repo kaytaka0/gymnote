@@ -38,6 +38,7 @@ class _WorkOutStartState extends State<WorkOutStartPage> {
         date: DateTime.now(),
       );
       visitList.items.add(item);
+      // LocalStorageに保存
       storage.setItem('gym_visit', visitList.toJSONEncodable());
     });
   }
@@ -59,6 +60,9 @@ class _WorkOutStartState extends State<WorkOutStartPage> {
                 onPressed: () {
                   // 新しいトレーニング記録を追加
                   _addItem(widget.gymData);
+                  // todo: トレーニング記録一覧画面に戻った際に
+                  // 新しいトレーニング記録が表示されていない。
+                  // データの更新を適切に行う。
                   Navigator.of(context).pop(widget.gymData);
 
                   ScaffoldMessenger.of(context)
