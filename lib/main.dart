@@ -103,7 +103,7 @@ class _HomePageState extends State<HomePage> {
               if (gym is HashMap) {
                 Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) {
-                    return WorkOutStartPage(gymName: gym['locationName']);
+                    return WorkOutStartPage(gymData: gym);
                   }),
                 );
               } else {

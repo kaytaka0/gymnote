@@ -68,7 +68,7 @@ class _LogPageState extends State<LogPage> {
       squareSize: 16.0,
       textOpacity: 0.3,
       labelTextColor: Colors.blueGrey,
-      dayTextColor: Colors.blue[500],
+      dayTextColor: Colors.grey[800],
     );
   }
 
@@ -94,15 +94,13 @@ class _LogPageState extends State<LogPage> {
         if (snapshot.data == true) {
           // localStorageから取得
           VisitList visitList = new VisitList();
-          List<dynamic> visits = storage.getItem('gym_visit');
-          visitList.items = visits == null
-              ? []
-              : visits
-                  .map((e) => new VisitItem(
-                      locationId: e['locationId'],
-                      locationName: e['locationName'],
-                      date: DateTime.parse(e['date'])))
-                  .toList();
+          List<dynamic> visits = storage.getItem('gym_visit') ?? [];
+          visitList.items = visits
+              .map((e) => new VisitItem(
+                  locationId: e['locationId'],
+                  locationName: e['locationName'],
+                  date: DateTime.parse(e['date'])))
+              .toList();
 
           return logWidget(visitList);
         } else {
