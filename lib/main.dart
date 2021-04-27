@@ -38,6 +38,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  Location location = new Location();
+
   //ローディング表示の状態
   bool visibleLoading = false;
   @override
@@ -73,14 +75,13 @@ class _HomePageState extends State<HomePage> {
           ? null
           : () async {
               // GymNotFoundPage, WorkoutStartPageのいづれかに遷移する
-              // 位置情報の取得が非同期関数を用いるため、ボタンが押された際にはローディングを表示させる
+              // 位置情報の取得が非同期な処理であるため、ボタンが押された際にはローディングを表示させる
               setState(() {
                 visibleLoading = true;
               });
 
-              // await Future.delayed(const Duration(milliseconds: 2000), () {});
               // 位置情報判定
-              bool isGetLocation = await checkLocation();
+              bool isGetLocation = await checkLocation(location);
               if (!isGetLocation) {
                 // ローディング終了
                 setState(() {
@@ -89,8 +90,7 @@ class _HomePageState extends State<HomePage> {
                 return;
               }
 
-              LocationData currentLocation =
-                  await (new Location().getLocation());
+              LocationData currentLocation = await location.getLocation();
 
               // ローディング終了
               setState(() {

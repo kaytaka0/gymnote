@@ -1,7 +1,6 @@
 import 'package:location/location.dart';
 
-Future<bool> checkLocation() async {
-  Location location = new Location();
+Future<bool> checkLocation(Location location) async {
   bool _serviceEnabled;
   PermissionStatus _permissionGranted;
 
@@ -56,7 +55,6 @@ bool inGym(LocationData currentLocation) {
       matchedLocation = location;
     }
   });
-  print(matchedLocation);
   if (matchedLocation != null) {
     return true;
   }
