@@ -51,37 +51,59 @@ class _WorkOutStartState extends State<WorkOutStartPage> {
       ),
       body: Center(
         child: Container(
+          padding: new EdgeInsets.all(10.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("位置情報によってフィットネスジムが見つかりました。"),
-              Text("${widget.gymData['locationName']}"),
-              ElevatedButton.icon(
-                onPressed: () {
-                  // 新しいトレーニング記録を追加
-                  _addItem(widget.gymData);
-                  // todo: トレーニング記録一覧画面に戻った際に
-                  // 新しいトレーニング記録が表示されていない。
-                  // データの更新を適切に行う。
-                  Navigator.of(context).pop(widget.gymData);
-
-                  ScaffoldMessenger.of(context)
-                    ..removeCurrentSnackBar()
-                    ..showSnackBar(SnackBar(
-                        content: Text("記録を追加しました"),
-                        behavior: SnackBarBehavior.floating));
-                },
-                icon: Icon(Icons.double_arrow),
-                label: Padding(
-                  padding: EdgeInsets.all(15),
-                  child: Text(
-                    "トレーニング開始",
-                  ),
+              Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5.0),
                 ),
-                style: ElevatedButton.styleFrom(
-                  shape: new RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(30.0),
-                  ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ListTile(
+                      subtitle: Text("位置情報によってフィットネスジムが見つかりました。"),
+                      title: Center(
+                        child: Text(
+                          "Anytime Fitness ${widget.gymData['locationName']}",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: new EdgeInsets.all(10),
+                      child: ElevatedButton.icon(
+                        onPressed: () {
+                          // 新しいトレーニング記録を追加
+                          _addItem(widget.gymData);
+                          // todo: トレーニング記録一覧画面に戻った際に
+                          // 新しいトレーニング記録が表示されていない。
+                          // データの更新を適切に行う。
+                          Navigator.of(context).pop(widget.gymData);
+
+                          // 確認バーの表示
+                          ScaffoldMessenger.of(context)
+                            ..removeCurrentSnackBar()
+                            ..showSnackBar(SnackBar(
+                                content: Text("記録を追加しました"),
+                                behavior: SnackBarBehavior.floating));
+                        },
+                        icon: Icon(Icons.double_arrow),
+                        label: Padding(
+                          padding: EdgeInsets.all(15),
+                          child: Text(
+                            "トレーニング開始",
+                          ),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(30.0),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
                 ),
               ),
             ],
