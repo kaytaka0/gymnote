@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class GymNotFoundPage extends StatefulWidget {
-  GymNotFoundPage({Key key}) : super(key: key);
+class TimeNotValidPage extends StatefulWidget {
+  TimeNotValidPage({Key key}) : super(key: key);
 
   @override
-  _GymNotFoundState createState() => _GymNotFoundState();
+  _TimeNotValidState createState() => _TimeNotValidState();
 }
 
-class _GymNotFoundState extends State<GymNotFoundPage> {
+class _TimeNotValidState extends State<TimeNotValidPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,21 +24,21 @@ class _GymNotFoundState extends State<GymNotFoundPage> {
                 child: Column(
                   children: [
                     Image(
-                      image: AssetImage('images/notfound.jpg'),
+                      image: AssetImage('images/timenotvalid.jpg'),
                       height: 200,
                       width: 200,
                     ),
                     Padding(
                       padding: new EdgeInsets.only(bottom: 10),
                       child: Text(
-                        "Designed by slidesgo / Freepik",
-                        style: TextStyle(color: Colors.grey, fontSize: 12),
+                        "Designed by pch.vector / Freepik",
+                        style: TextStyle(color: Colors.grey),
                       ),
                     ),
                     Padding(
                       padding: new EdgeInsets.only(bottom: 10),
                       child: ListTile(
-                        subtitle: Text("位置情報によってフィットネスジムが見つかりませんでした。"),
+                        subtitle: Text("すでに記録されています。一定時間後に記録を行なってください。"),
                       ),
                     )
                   ],
